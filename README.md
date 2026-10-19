@@ -27,6 +27,34 @@ cmake --build build/win-x64-clang-rwdi
 
 On GNU/Linux, use the matching `linux-x64-clang-rwdi` preset.
 
+### Local macOS builds
+
+With Xcode command-line tools, Git, and CMake 3.25 or newer installed, run:
+
+```sh
+bash cmake/build-macos.sh
+```
+
+The helper downloads the pinned vcpkg dependencies into `build/`, uses Apple's
+Make without requiring a system Ninja or ccache installation, and builds
+`PoseidonGame` and `PoseidonGameDemo` for the Mac's native architecture. The first
+build needs internet access. Set `CWR_BUILD_JOBS` to control parallelism (default
+4). `MACOSX_DEPLOYMENT_TARGET` defaults to `15.0` for both the game and its
+dependencies, so a build on a newer Mac can run on macOS 15. Builds are marked
+`macos-local` unless `OFPR_BUILD_VERSION_TAG` is set explicitly.
+
+On Apple Silicon, the output is `dist/arm64-macos-rwdi-local/`. Keep
+`libopenal.dylib` alongside the executables for sound. Once the separate
+Remastered game data is available, launch the demo with:
+
+```sh
+./dist/arm64-macos-rwdi-local/PoseidonGameDemo --window --work-dir /path/to/Demo
+```
+
+The same Apple Silicon binaries have passed command-line startup checks on
+macOS 15.5 and 26.1. This check does not establish gameplay compatibility; game
+data is required for that.
+
 ## Layout
 
 - [Apps](apps/README.md) - executable targets
